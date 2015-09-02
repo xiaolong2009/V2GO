@@ -1,0 +1,16 @@
+{% extends 'snippet/layout.html' %}
+{% load forum_extras %}
+
+{% block main %}
+	<div class="topics container-box node-topics">
+		<div>
+			<a href="/t/create/{{ node.slug }}/">创建新主题</a>
+			<span class="bread-nav">F2E > {{ node.name }}</span>
+		</div>
+		<div class="ui-content">
+			{% for topic in topics %}
+				
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

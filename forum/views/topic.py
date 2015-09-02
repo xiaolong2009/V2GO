@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import Http404
 from forum.models import ForumUser, Topic, Favorite, Vote, Reply, Node, Notification, Plane
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
 def get_index(request):
 	user = request.user
@@ -58,13 +59,32 @@ def get_profile(request, uid):
 	return render_to_response('topic/profile.html', locals(),
 		context_instance=RequestContext(request))
 
+@login_required
+def get_create(request, slug=None, errors=None):
+	node = get_object_or_404(Node, slug=slug)
+	user = request.user
+	counter = {
+		'topics': user.topic_author.all().count(),
+		'replies': user.reply_author.all().count(),
+		'favorites': user.fav_user.all().count()
+	}
+	notifications_count = user.notify_user.filter(status=0).count()
+	node_slug = node.slug
+	active_page = 'topic'
+	return render_to_response('topic/create.html', locals(),
+		context_instance=RequestContext(request))
+
+@login_required
+def post_create(request):
+	pass
+
 def get_view(request, topic_id):
 	try:
 		topic = Topic.objects.get(pk=topic_id)
 	except Topic.DoesNotExist:
 		raise Http404
 	user = request.user
-	if user.is_authenticated:
+	if user.is_authenticated():
 		counter = {
 			'topics' : user.topic_author.all().count(),
 			'replies': user.reply_author.all().count(),
@@ -75,6 +95,7 @@ def get_view(request, topic_id):
 
 	reply_num = 106
 	reply_count = topic.reply_count
+	print 'reply_count,',reply_count
 	reply_last_page = (reply_count // reply_num + (reply_count % reply_num and 1)) or 1
 	try:
 		current_page = int(request.GET.get('p', reply_last_page))
@@ -112,3 +133,5 @@ def get_node_topics(request, slug):
 	active_page = 'topic'
 	return render_to_response('topic/node_topics.html', locals(),
 		context_instance=RequestContext(request))
+
+
