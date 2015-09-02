@@ -91,4 +91,24 @@ def get_view(request, topic_id):
 	render_to_response('topic.view.html',locals(),
 		context_instance=RequestContext(request))
 
+def post_view(request):
+	pass
 
+def get_node_topics(request, slug):
+	node = get_object_or_404(Node, slug=slug)
+	user = request.user
+	try:
+		current_page = int(request.GET.get('p','1'))
+	except ValueError:
+		current_page = 1
+	if user.is_authenticated():
+		counter = {
+			'topics': user.topic_author.all().count(),
+			'replies': user.reply_author.all().count(),
+			'favorites': user.fav_user.all().count(),
+		}
+		notifications_count = user.notify_user.filter(status=0).count()
+	topics, topic_page = Topic.objects.get_all_topics_by_node_slug(node_slug=slug)
+	active_page = 'topic'
+	return render_to_response('topic/node_topics.html', locals(),
+		context_instance=RequestContext(request))

@@ -8,5 +8,5 @@ urlpatterns = patterns('',
 	url(r'^logout/', common.method_splitter, {'GET':user.get_logout}),
 	url(r'^u/(.*)/$', common.method_splitter, {'GET':topic.get_profile}),
 	url(r'^/t/(\d+)/$', common,method_splitter, {'GET': topic.get_view, 'POST':topic.post_view}),
-
+	url(r'^node/(.*)/$', common.method_splitter, {'GET': topic.get_node_topics}),
 )
