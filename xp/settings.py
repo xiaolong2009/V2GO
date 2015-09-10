@@ -182,3 +182,5 @@ AUTHENTICATION_BACKENDS = ('forum.backends.EmailAuthBackend',)
 LOGIN_URL = '/login/'
 
 RESERVED = ["user", "topic", "home", "setting", "forgot", "login", "logout", "register", "admin"]
+
+add_for_test = 'xiaolong'
