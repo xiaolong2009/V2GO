@@ -184,3 +184,5 @@ LOGIN_URL = '/login/'
 RESERVED = ["user", "topic", "home", "setting", "forgot", "login", "logout", "register", "admin"]
 
 add_for_test = 'xiaolong'
+
+add_in_github = 'xiaolong'
