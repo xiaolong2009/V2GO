@@ -183,4 +183,4 @@ LOGIN_URL = '/login/'
 
 RESERVED = ["user", "topic", "home", "setting", "forgot", "login", "logout", "register", "admin"]
 
-add_for_test = 'xiaolong'
+add_for_test = 'xiaolong_zhangli'
